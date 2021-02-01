@@ -2,6 +2,50 @@
 
 Critter Chronologer a Software as a Service application that provides a scheduling interface for a small business that takes care of animals. This Spring Boot project will allow users to create pets, owners, and employees, and then schedule events for employees to provide services for pets.
 
+## TODOs
+
+### Configure Unit Tests
+- [ ] DONE
+
+Create a new application.properties file in your test/resources directory and configure it to use an H2 in-memory database for unit tests.
+
+### Create a Service Layer
+- [ ] DONE
+
+This project is designed so that the majority of the work can be performed by the Data layer, but you still need another layer that can combine calls to multiple DAOs or Repositories. Create Service objects that can handle requests from the Controller layer and make the appropriate calls to the Data layer. Avoid exposing the starter code’s DTO objects to your Service layer. The Service layer should work with Entities or primitives, but not DTOs.
+
+### Update the Controller to use Services
+- [ ] DONE
+
+Inject Service references into the provided Controller classes and use those Services to complete the methods in the Controller. Once you have completed each request, test it using the JUnit tests and Postman.
+
+### Task Review and Refactor
+- [ ] DONE
+  
+Your project should now support the following workflow:
+
+- Create a new customer.
+- Create a pet for that customer.
+- Create an employee.
+- Update the employee’s schedule.
+- Find out which employees with the right skills are available on a given date.
+- Schedule one or more employees to do a set of activities with one or more pets.
+- Look up currently scheduled events for an employee, a pet, or a customer.
+
+
+## Environment
+### Database - Docker Container
+```
+docker run --name critter-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=admin -d mysql:latest
+```
+
+Add data from a file on the local machine
+```
+docker exec -i critter-db mysql -pmy-secret-pw mysql < /path/to/my/sqlfile/myfile.sql
+```
+
+[docker-dev-db - ibm](https://developer.ibm.com/technologies/databases/tutorials/docker-dev-db/)
+[spring-with-containerized-db - callicoder](https://www.callicoder.com/spring-boot-mysql-react-docker-compose-example/)
 
 ## Getting Started
 

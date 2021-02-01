@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  db:
+    container_name: critter-chronologer-db
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: critterdb
+      MYSQL_USER: critter-user
+      MYSQL_PASSWORD: critterpsw
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+volumes:
+  db-data:
+
+networks:
+  backend:
