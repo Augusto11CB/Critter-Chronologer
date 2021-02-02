@@ -28,6 +28,7 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
+
         final Pet pet = convertPetDTOToPet(petDTO);
         final Pet savedPet = petService.savePet(pet);
 
@@ -36,20 +37,24 @@ public class PetController {
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        final Optional<Pet> petById = petService.findPetById(petId);
 
-        final Pet pet = petById.orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+        final Pet pet = petService.getPet(petId);
 
         return convertPetToPetDTO(pet);
     }
 
     @GetMapping
     public List<PetDTO> getPets() {
-        throw new UnsupportedOperationException();
+        final List<Pet> pets = petService.getPets();
+        return pets
+                .stream()
+                .map(this::convertPetToPetDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
+
         final List<Pet> pets = petService.getPetsByOwner(ownerId);
 
         return pets
