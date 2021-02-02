@@ -32,4 +32,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Pet> pets;
 
+    public void addPet(final Pet pet) {
+        pets.add(pet);
+    }
 }
