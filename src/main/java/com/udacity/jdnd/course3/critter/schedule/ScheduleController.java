@@ -32,10 +32,10 @@ public class ScheduleController {
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody final ScheduleDTO scheduleDTO) {
 
-        final Schedule schedule = convertScheduleDTOToSchedule(scheduleDTO);
+        final Schedule schedule = toEntity(scheduleDTO);
         final Schedule savedSchedule = scheduleService.createSchedule(schedule);
 
-        return convertScheduleToScheduleDTO(savedSchedule);
+        return toDTO(savedSchedule);
 
     }
 
@@ -43,7 +43,7 @@ public class ScheduleController {
     public List<ScheduleDTO> getAllSchedules() {
         return scheduleService.getAllSchedules()
                 .stream()
-                .map(this::convertScheduleToScheduleDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
 
     }
@@ -52,7 +52,7 @@ public class ScheduleController {
     public List<ScheduleDTO> getScheduleForPet(@PathVariable final long petId) {
         return scheduleService.getScheduleForPet(petId)
                 .stream()
-                .map(this::convertScheduleToScheduleDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +60,7 @@ public class ScheduleController {
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable final long employeeId) {
         return scheduleService.getScheduleForEmployee(employeeId)
                 .stream()
-                .map(this::convertScheduleToScheduleDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -68,11 +68,11 @@ public class ScheduleController {
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable final long customerId) {
         return scheduleService.getScheduleForCustomer(customerId)
                 .stream()
-                .map(this::convertScheduleToScheduleDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule) {
+    public ScheduleDTO toDTO(Schedule schedule) {
 
         final ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
@@ -87,7 +87,7 @@ public class ScheduleController {
         return scheduleDTO;
     }
 
-    public Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO) {
+    public Schedule toEntity(ScheduleDTO scheduleDTO) {
 
         final Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO, schedule);

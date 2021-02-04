@@ -28,10 +28,10 @@ public class PetController {
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
 
-        final Pet pet = convertPetDTOToPet(petDTO);
+        final Pet pet = toEntity(petDTO);
         final Pet savedPet = petService.savePet(pet);
 
-        return convertPetToPetDTO(savedPet);
+        return toDTO(savedPet);
     }
 
     @GetMapping("/{petId}")
@@ -39,7 +39,7 @@ public class PetController {
 
         final Pet pet = petService.getPet(petId);
 
-        return convertPetToPetDTO(pet);
+        return toDTO(pet);
     }
 
     @GetMapping
@@ -47,7 +47,7 @@ public class PetController {
         final List<Pet> pets = petService.getPets();
         return pets
                 .stream()
-                .map(this::convertPetToPetDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -58,12 +58,12 @@ public class PetController {
 
         return pets
                 .stream()
-                .map(this::convertPetToPetDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
 
-    private Pet convertPetDTOToPet(PetDTO petDTO) {
+    private Pet toEntity(PetDTO petDTO) {
 
         final Customer customer = customerService.getCustomerById(petDTO.getOwnerId());
         final Pet pet = new Pet();
@@ -72,7 +72,7 @@ public class PetController {
         return pet;
     }
 
-    private PetDTO convertPetToPetDTO(Pet pet) {
+    private PetDTO toDTO(Pet pet) {
         final PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
         petDTO.setOwnerId(pet.getCustomer().getId());

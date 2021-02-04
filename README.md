@@ -5,22 +5,22 @@ Critter Chronologer a Software as a Service application that provides a scheduli
 ## TODOs
 
 ### Configure Unit Tests
-- [ ] DONE
+- [X] DONE
 
 Create a new application.properties file in your test/resources directory and configure it to use an H2 in-memory database for unit tests.
 
 ### Create a Service Layer
-- [ ] DONE
+- [X] DONE
 
 This project is designed so that the majority of the work can be performed by the Data layer, but you still need another layer that can combine calls to multiple DAOs or Repositories. Create Service objects that can handle requests from the Controller layer and make the appropriate calls to the Data layer. Avoid exposing the starter code’s DTO objects to your Service layer. The Service layer should work with Entities or primitives, but not DTOs.
 
 ### Update the Controller to use Services
-- [ ] DONE
+- [X] DONE
 
 Inject Service references into the provided Controller classes and use those Services to complete the methods in the Controller. Once you have completed each request, test it using the JUnit tests and Postman.
 
 ### Task Review and Refactor
-- [ ] DONE
+- [X] DONE
   
 Your project should now support the following workflow:
 

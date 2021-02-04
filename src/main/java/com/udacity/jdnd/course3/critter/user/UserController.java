@@ -6,7 +6,6 @@ import com.udacity.jdnd.course3.critter.user.entity.Customer;
 import com.udacity.jdnd.course3.critter.user.entity.Employee;
 import com.udacity.jdnd.course3.critter.user.service.CustomerService;
 import com.udacity.jdnd.course3.critter.user.service.EmployeeService;
-import org.h2.engine.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,10 +37,10 @@ public class UserController {
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody final CustomerDTO customerDTO) {
 
-        final Customer customer = this.convertCustomerDTOToCustomer(customerDTO);
+        final Customer customer = this.toEntity(customerDTO);
         final Customer savedCustomer = customerService.saveCustomer(customer);
 
-        return this.convertCustomerToCustomerDTO(savedCustomer);
+        return this.toDTO(savedCustomer);
     }
 
     @GetMapping("/customer")
@@ -50,7 +49,7 @@ public class UserController {
         final List<Customer> customers = customerService.getAllCustomers();
 
         return customers.stream()
-                .map(this::convertCustomerToCustomerDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -59,17 +58,17 @@ public class UserController {
 
         final Customer ownerPet = customerService.getOwnerByPet(petId);
 
-        return this.convertCustomerToCustomerDTO(ownerPet);
+        return this.toDTO(ownerPet);
     }
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody final EmployeeDTO employeeDTO) {
 
-        final Employee employee = this.convertEmployeeDTOToEmployee(employeeDTO);
+        final Employee employee = this.toEntity(employeeDTO);
 
         final Employee savedEmployee = employeeService.saveEmployee(employee);
 
-        return this.convertEmployeeToEmployeeDTO(savedEmployee);
+        return this.toDTO(savedEmployee);
 
     }
 
@@ -78,7 +77,7 @@ public class UserController {
 
         final Employee employee = employeeService.getEmployee(employeeId);
 
-        return this.convertEmployeeToEmployeeDTO(employee);
+        return this.toDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -92,14 +91,14 @@ public class UserController {
 
         if (!employees.isEmpty()) {
             return employees.stream()
-                    .map(this::convertEmployeeToEmployeeDTO)
+                    .map(this::toDTO)
                     .collect(Collectors.toList());
         }
 
         return Collections.emptyList();
     }
 
-    private Customer convertCustomerDTOToCustomer(@NotNull final CustomerDTO customerDTO) {
+    private Customer toEntity(@NotNull final CustomerDTO customerDTO) {
 
         final Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);
@@ -115,7 +114,7 @@ public class UserController {
         return customer;
     }
 
-    private CustomerDTO convertCustomerToCustomerDTO(final Customer customer) {
+    private CustomerDTO toDTO(final Customer customer) {
 
         final CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer, customerDTO);
@@ -132,7 +131,7 @@ public class UserController {
         return customerDTO;
     }
 
-    private Employee convertEmployeeDTOToEmployee(final EmployeeDTO employeeDTO) {
+    private Employee toEntity(final EmployeeDTO employeeDTO) {
 
         final Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
@@ -140,7 +139,7 @@ public class UserController {
         return employee;
     }
 
-    private EmployeeDTO convertEmployeeToEmployeeDTO(final Employee employee) {
+    private EmployeeDTO toDTO(final Employee employee) {
 
         final EmployeeDTO employeeDTO = new EmployeeDTO();
         BeanUtils.copyProperties(employee, employeeDTO);
