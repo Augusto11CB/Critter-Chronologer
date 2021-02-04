@@ -1,8 +1,14 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.pet.entity.Pet;
+import com.udacity.jdnd.course3.critter.pet.service.PetService;
+import com.udacity.jdnd.course3.critter.user.entity.Customer;
+import com.udacity.jdnd.course3.critter.user.service.CustomerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Pets.
@@ -11,23 +17,65 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
+    private PetService petService;
+    private CustomerService customerService;
+
+    public PetController(PetService petService, CustomerService customerService) {
+        this.petService = petService;
+        this.customerService = customerService;
+    }
+
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
+
+        final Pet pet = toEntity(petDTO);
+        final Pet savedPet = petService.savePet(pet);
+
+        return toDTO(savedPet);
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+
+        final Pet pet = petService.getPet(petId);
+
+        return toDTO(pet);
     }
 
     @GetMapping
-    public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+    public List<PetDTO> getPets() {
+        final List<Pet> pets = petService.getPets();
+        return pets
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+
+        final List<Pet> pets = petService.getPetsByOwner(ownerId);
+
+        return pets
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    private Pet toEntity(PetDTO petDTO) {
+
+        final Customer customer = customerService.getCustomerById(petDTO.getOwnerId());
+        final Pet pet = new Pet();
+        BeanUtils.copyProperties(petDTO, pet);
+        pet.setCustomer(customer);
+        return pet;
+    }
+
+    private PetDTO toDTO(Pet pet) {
+        final PetDTO petDTO = new PetDTO();
+        BeanUtils.copyProperties(pet, petDTO);
+        petDTO.setOwnerId(pet.getCustomer().getId());
+        return petDTO;
     }
 }
