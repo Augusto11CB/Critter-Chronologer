@@ -40,7 +40,7 @@ public class EmployeeService {
 
         // TODO Create a Method Named Query for this operation
         List<Employee> allEmployees = employeeRepository.findAll();
-        List<Employee> matchEmployees = Collections.emptyList();
+        List<Employee> matchEmployees = new ArrayList<>();
         for (Employee employee : allEmployees) {
             if (employee.getSkills().containsAll(skillsRequest) && employee.getDaysAvailable().contains(dayRequest)) {
                 matchEmployees.add(employee);

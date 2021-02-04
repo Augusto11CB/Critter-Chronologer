@@ -29,7 +29,7 @@ public class CustomerService {
 
     public Customer getOwnerByPet(final long petId) {
         final Pet pet = petRepository.getOne(petId);
-        return pet.getOwner();
+        return pet.getCustomer();
     }
 
     public Customer getCustomerById(final long customerID) {

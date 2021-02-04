@@ -27,19 +27,19 @@ public class PetService {
     public Pet savePet(final Pet pet) {
 
         final Pet savedPet = petRepository.save(pet);
-/*      TODO - Verify if it will be necessary
-        Optional<Customer> ownerOp = Optional.of(pet.getOwner());
+        // TODO - Verify why associate this savedPet with the customer is necessary
+        Optional<Customer> ownerOp = Optional.of(pet.getCustomer());
         if (ownerOp.isPresent()) {
             final Customer owner = ownerOp.get();
             Optional<Customer> customerOptional = customerRepository.findById(owner.getId());
 
             if (customerOptional.isPresent()) {
                 Customer customer = customerOptional.get();
-                customer.addPet(pet);
+                customer.getPets().add(savedPet);
                 customerRepository.save(customer);
             }
         }
-*/
+
         return savedPet;
 
     }

@@ -125,6 +125,7 @@ public class UserController {
             final List<Long> petIds = customer.getPets().stream()
                     .map(Pet::getId)
                     .collect(Collectors.toList());
+
             customerDTO.setPetIds(petIds);
         }
 

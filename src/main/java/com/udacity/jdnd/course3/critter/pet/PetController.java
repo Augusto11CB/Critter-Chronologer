@@ -2,13 +2,12 @@ package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.pet.entity.Pet;
 import com.udacity.jdnd.course3.critter.pet.service.PetService;
+import com.udacity.jdnd.course3.critter.user.entity.Customer;
 import com.udacity.jdnd.course3.critter.user.service.CustomerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -66,17 +65,17 @@ public class PetController {
 
     private Pet convertPetDTOToPet(PetDTO petDTO) {
 
-//      final customerService.getCustomerById(petDTO.getOwnerId()); // TODO
+        final Customer customer = customerService.getCustomerById(petDTO.getOwnerId());
         final Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
-//      pet.setOwner();
+        pet.setCustomer(customer);
         return pet;
     }
 
     private PetDTO convertPetToPetDTO(Pet pet) {
         final PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-        petDTO.setOwnerId(pet.getOwner().getId());
+        petDTO.setOwnerId(pet.getCustomer().getId());
         return petDTO;
     }
 }

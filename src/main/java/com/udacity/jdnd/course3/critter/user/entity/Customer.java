@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -29,10 +29,7 @@ public class Customer {
     @Column(name = "NOTES", length = 512)
     private String notes;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Pet> pets;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<Pet> pets = new ArrayList<>();
 
-    public void addPet(final Pet pet) {
-        pets.add(pet);
-    }
 }

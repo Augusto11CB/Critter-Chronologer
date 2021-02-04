@@ -23,6 +23,12 @@ public class ScheduleController {
     private ScheduleService scheduleService;
     private EmployeeService employeeService;
 
+    public ScheduleController(PetService petService, ScheduleService scheduleService, EmployeeService employeeService) {
+        this.petService = petService;
+        this.scheduleService = scheduleService;
+        this.employeeService = employeeService;
+    }
+
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody final ScheduleDTO scheduleDTO) {
 
